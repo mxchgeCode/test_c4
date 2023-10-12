@@ -4,25 +4,13 @@ import io.qameta.allure.Step;
 import static com.codeborne.selenide.Selectors.withText;
 import static com.codeborne.selenide.Selenide.$;
 import static com.codeborne.selenide.Selenide.open;
-import static org.openqa.selenium.By.linkText;
+
 
 public class Steps {
 
-    @Step("Открываем страницу github")
-    public void openMainPage() {
-        open("https://github.com");
-    }
-
-
-    @Step("Ищем репозиторий {repo}")
-    public void searchRepository(String repo, String loc, String search) {
-        $(loc).click();
-        $(search).setValue(repo).pressEnter();
-    }
-
-    @Step("Открываем репозиторий {repo}")
-    public void openRepository(String repo) {
-        $(linkText(repo)).click();
+    @Step("Открываем репозиторий")
+    public void openMainPage(String repo) {
+        open(repo);
     }
 
     @Step("Открываем таб Issues")

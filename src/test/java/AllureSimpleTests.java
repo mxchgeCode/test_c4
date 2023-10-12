@@ -7,17 +7,16 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static com.codeborne.selenide.Selectors.withText;
-import static com.codeborne.selenide.Selenide.$;
-import static com.codeborne.selenide.Selenide.open;
+import static com.codeborne.selenide.Selenide.*;
 import static io.qameta.allure.Allure.step;
 import static org.openqa.selenium.By.linkText;
 
 public class AllureSimpleTests {
-    private static final String REPOSITORY = "junit-team/junit5";
-    private static final String URL = "https://github.com/";
-    private static final String LOCATOR = ".search-input-container";
-    private static final String SEARCH = "#query-builder-test";
-    private static final String ISSUES = "Remove or relax the new rule for strict String to Boolean conversion";
+    private static final String REPOSITORY = "https://github.com/allure-framework/allure2";
+    private static final String STORY = "Поиск в репозитории Allure";
+    private static final String Feature ="Поиск в репозитории";
+    private static final String URL2 = "https://github.com/search?q=allure-framework&type=wikis";
+    private static final String ISSUES = "How to add a new column to Allure CSV metadata?";
 
     @BeforeEach
     void enableAllure() {
@@ -25,50 +24,40 @@ public class AllureSimpleTests {
     }
 
     @Test
-    @Feature("Поиск в репозитории")
-    @Story("Поиск в репозитории junit5")
+    @Feature(Feature)
+    @Story(STORY)
     @Severity(SeverityLevel.CRITICAL)
-    @Link(value = "Wiki", url = "https://github.com/junit-team/junit5/wiki")
-    @DisplayName("Проверка Issue в репозитории junit5 с Listener")
-    public void checkNameIssue() {
-        open(URL);
-        $(LOCATOR).click();
-        $(SEARCH).setValue(REPOSITORY).pressEnter();
-        $(linkText(REPOSITORY)).click();
+    @Link(value = "Allure Wiki", url = URL2)
+    @DisplayName("Проверка Issue в репозитории Allure с Listener")
+    public void checkNameIssueTest() {
+        open(REPOSITORY);
         $("#issues-tab").click();
+        System.out.println(linkText(REPOSITORY));
         $(withText(ISSUES)).should(Condition.exist);
     }
 
     @Test
-    @Feature("Поиск в репозитории")
-    @Story("Поиск в репозитории junit5")
+    @Feature(Feature)
+    @Story(STORY)
     @Severity(SeverityLevel.MINOR)
-    @Link(value = "Wiki", url = "https://github.com/junit-team/junit5/wiki")
-    @DisplayName("Проверка Issue в репозитории " + REPOSITORY + " с лямбда шагами через step")
-    public void checkNameIssueLambda() {
-        step("Открываем главную страницу", () -> open(URL));
-        step("Ищем репозиторий " + REPOSITORY, () -> {
-            $(LOCATOR).click();
-            $(SEARCH).setValue(REPOSITORY).pressEnter();
-        });
-        step("Открываем репозиторий " + REPOSITORY, () -> $(linkText(REPOSITORY)).click());
+    @Link(value = "Allure Wiki", url = URL2)
+    @DisplayName("Проверка Issue в репозитории с лямбда шагами через step")
+    public void checkNameIssueLambdaTest() {
+        step("Открываем репозиторий", () -> open(REPOSITORY));
         step("Открываем таб Issues", () -> $("#issues-tab").click());
         step("Проверяем наличие на странице Issues: " + ISSUES, () -> $(withText(ISSUES)).should(Condition.exist));
     }
 
     @Test
-    @Feature("Поиск в репозитории")
-    @Story("Поиск в репозитории junit5")
+    @Feature(Feature)
+    @Story(STORY)
     @Severity(SeverityLevel.NORMAL)
-    @Link(value = "Wiki", url = "https://github.com/junit-team/junit5/wiki")
-    @DisplayName("Проверка Issue в репозитории junit5 шагами с аннотацией @Step")
-    public void checkNameIssueWithAnnotatedStep() {
+    @Link(value = "Allure Wiki", url = URL2)
+    @DisplayName("Проверка Issue в репозитории Allure шагами с аннотацией Step")
+    public void checkNameIssueWithAnnotatedStepTest() {
         Steps steps = new Steps();
-        steps.openMainPage();
-        steps.searchRepository(REPOSITORY, LOCATOR, SEARCH);
-        steps.openRepository(REPOSITORY);
+        steps.openMainPage(REPOSITORY);
         steps.openTabIssues();
         steps.checkNameIssues(ISSUES);
     }
-
 }
