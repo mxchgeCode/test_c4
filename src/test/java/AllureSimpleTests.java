@@ -12,23 +12,17 @@ import static io.qameta.allure.Allure.step;
 import static org.openqa.selenium.By.linkText;
 
 
+@Feature("Поиск в репозитории")
+@Story("Поиск в репозитории Allure")
+@Link(value = "Allure Wiki", url = "https://github.com/search?q=allure-framework&type=wikis")
 public class AllureSimpleTests {
     private static final String REPOSITORY = "https://github.com/allure-framework/allure2";
-
-    private static final String STORY = "Поиск в репозитории Allure";
-    private static final String FEATURE ="Поиск в репозитории";
-
-    private static final String URL2 = "https://github.com/search?q=allure-framework&type=wikis";
     private static final String ISSUES = "How to add a new column to Allure CSV metadata?";
 
     @BeforeEach
     void enableAllure() {
         SelenideLogger.addListener("allure", new AllureSelenide());
     }
-    @Feature(FEATURE)
-    @Story(STORY)
-    @Link(value = "Allure Wiki", url = URL2)
-
 
     @Test
     @Severity(SeverityLevel.CRITICAL)
